@@ -35,4 +35,31 @@ public class Text {
 				+ " -Number Of Loan Books: " + account.getBookLoanNumber());
 	}
 	
+	public static void addBook() {
+		System.out.println("--ADD NEW BOOK--\n");
+	}
+	
+	public static void bookNameInput() {
+		System.out.print("Enter Name Of A New Book: ");
+	}
+	
+	public static void bookInfo(Book book) {
+		System.out.println("--BOOK INFO--\n\n"
+				+ " -Name: " + book.getName() + "\n"
+				+ " -Book Number: " + book.getNumber() + "\n"
+				+ " -Book Status: " + book.isStatus());
+	}
+	
+	public static void loanBook() {
+		System.out.println("--LOAN BOOK--\n");
+	}
+	
+	public static void accNumberInput() {
+		System.out.print("Enter Your Account Number: ");
+	}
+	
+	public static void bookNumberInput() {
+		System.out.print("Enter Your Book Number: ");
+	}
+	
 }

@@ -7,6 +7,7 @@ public class Account {
 	private int number;
 	private int bookLoanNumber;
 	private ArrayList<Integer> numbers = new ArrayList<>();
+	private ArrayList<Book> loanedBooks = new ArrayList<>();
 	
 	protected Account(String name, String surname) {
 		this.name = name;
@@ -29,12 +30,14 @@ public class Account {
 		numbers.add(this.number);
 	}
 	
-	public void addBook(int numberOfBooks) {
-		this.bookLoanNumber += numberOfBooks;
+	public void addBook(Book book) {
+		this.bookLoanNumber++;
+		this.loanedBooks.add(book);
 	}
 	
-	public void removeBook(int numberOfBooks) {
-		this.bookLoanNumber -= numberOfBooks;
+	public void removeBook(Book book) {
+		this.bookLoanNumber++;
+		this.loanedBooks.remove(book);
 	}
 	
 	public boolean checkForNumber(int number) {
