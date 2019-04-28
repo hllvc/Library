@@ -2,7 +2,7 @@
 public class Text {
 
 	public static void mainMenu() {
-		System.out.print("---MAIN MENU---\n\n"
+		System.out.print("\n---MAIN MENU---\n\n"
 				+ "1) Create New Account\n"
 				+ "2) Add New Book To Library\n"
 				+ "3) Loan Book\n"
@@ -12,7 +12,7 @@ public class Text {
 	}
 	
 	public static void createAccount() {
-		System.out.println("--CREATE ACCOUNT--\n");
+		System.out.println("\n--CREATE ACCOUNT--\n");
 	}
 	
 	public static void nameInput() {
@@ -32,11 +32,11 @@ public class Text {
 				+ " -Name: " + account.getName() + "\n"
 				+ " -Surname: " + account.getSurname() + "\n"
 				+ " -Account Number: " + account.getNumber() + "\n"
-				+ " -Number Of Loan Books: " + account.getBookLoanNumber());
+				+ " -Number Of Loaned Books: " + account.getBookLoanNumber());
 	}
 	
 	public static void addBook() {
-		System.out.println("--ADD NEW BOOK--\n");
+		System.out.println("\n--ADD NEW BOOK--\n");
 	}
 	
 	public static void bookNameInput() {
@@ -51,7 +51,7 @@ public class Text {
 	}
 	
 	public static void loanBook() {
-		System.out.println("--LOAN BOOK--\n");
+		System.out.println("\n--LOAN BOOK--\n");
 	}
 	
 	public static void accNumberInput() {
@@ -60,6 +60,14 @@ public class Text {
 	
 	public static void bookNumberInput() {
 		System.out.print("Enter Your Book Number: ");
+	}
+	
+	public static void allAccounts() {
+		System.out.println("--LIST OF ALL ACCOUNTS--\n");
+	}
+	
+	public static void exit() {
+		System.out.println("*You Have Exited Library");
 	}
 	
 }

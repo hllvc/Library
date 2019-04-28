@@ -44,11 +44,20 @@ public class Test {
 		account.addBook(book);
 	}
 	
+	private static void allAccInfo() {
+		Text.allAccounts();
+		for (Account x: allAccounts) {
+			Text.accountInfo(x);
+			System.out.println(x.getLoanedBooks());
+		}
+	}
+	
 	private static void mainMenu() {
 		byte choice;
 		do {
 			Text.mainMenu();
 			choice = input.nextByte();
+			input.nextLine();
 			switch (choice) {
 			case 1:
 				createAccount();
@@ -57,10 +66,10 @@ public class Test {
 				addNewBook();
 				break;
 			case 3:
-				
+				loanBook();
 				break;
 			case 4:
-				
+				allAccInfo();
 				break;
 			default:
 			}
@@ -69,7 +78,8 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		
+		mainMenu();
+		input.close();
 		
 	}
 	

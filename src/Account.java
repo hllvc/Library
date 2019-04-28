@@ -68,5 +68,10 @@ public class Account {
 	public int getNumber() {
 		return this.number;
 	}
+
+	public ArrayList<Book> getLoanedBooks() {
+		return loanedBooks;
+	}
+	
 	
 }
