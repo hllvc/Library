@@ -33,7 +33,7 @@ public class Text {
 		System.out.println("--ACCOUNT INFO--\n\n"
 				+ " -Name: " + account.getName() + "\n"
 				+ " -Surname: " + account.getSurname() + "\n"
-				+ " -Account Number: " + account.getNumber() + "\n"
+				+ " -Account Number: *" + account.getNumber() + "*\n"
 				+ " -Number Of Loaned Books: " + account.getBookLoanNumber());
 	}
 	
@@ -50,7 +50,7 @@ public class Text {
 		System.out.println("__________________\n\n"
 				+ "--BOOK INFO--\n\n"
 				+ " -Name: " + book.getName() + "\n"
-				+ " -Book Number: " + book.getNumber() + "\n");
+				+ " -Book Number: *" + book.getNumber() + "*\n");
 	}
 	
 	public static void loanBook() {
