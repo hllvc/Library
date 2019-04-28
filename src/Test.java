@@ -47,23 +47,46 @@ public class Test {
 		return false;
 	}
 	
+	public static boolean checkForLoaned() {
+		boolean loaned = true;
+		for (Book x: allBooks)
+			if (!x.isStatus())
+				loaned = false;
+		return loaned;
+	}
+	
+	public static boolean checkBookStatus(Book book) {
+		if (book.isStatus())
+			return true;
+		return false;
+	}
+	
+	public static boolean checkLoanedNumber(Account x) {
+		if (x.getBookLoanNumber() < 3)
+			return false;
+		return true;
+	}
+	
 	private static void loanBook() {
-		if (checkForBooks() || checkForAccounts()) {
+		if (checkForBooks() || checkForAccounts() || checkForLoaned()) {
 			if (checkForAccounts())
 				Text.noAccounts();
-			else
+			else if (checkForBooks())
 				Text.noBooks();
+			else if (checkForLoaned())
+				Text.allLoaned();
 			return;
 		}
+		
 		Text.loanBook();
 		int accNumber;
 		do {
 			Text.accNumberInput();
 			accNumber = input.nextInt();
-			if (checkNumberLenght(accNumber))
+			if (checkNumberLenght(accNumber)) {
 				Text.numberLenght();
-		} while (checkNumberLenght(accNumber));
-		do {
+				continue;
+			}
 			account = null;
 			for (Account x: allAccounts)
 				if (x.getNumber() == accNumber) {
@@ -72,22 +95,28 @@ public class Test {
 				}
 			if (account == null)
 				Text.noAccount();
-		} while (account == null);
-		Text.bookNumberInput();
+			else if (checkLoanedNumber(account)) {
+				Text.limit();
+				return;
+			}
+		} while (checkNumberLenght(accNumber) || account == null || checkLoanedNumber(account));
 		int bookNumber;
 		do {
+			Text.bookNumberInput();
 			bookNumber = input.nextInt();
-			if (checkNumberLenght(bookNumber))
+			if (checkNumberLenght(bookNumber)) {
 				Text.numberLenght();
-		} while (checkNumberLenght(bookNumber));
-		do {
+				continue;
+			}
 			book = null;
 			for (Book x: allBooks)
 				if (x.getNumber() == bookNumber)
 					book = x;
 			if (book == null)
 				Text.noBook();
-		} while ( book == null);
+			else if (book.isStatus())
+				Text.taken();
+		} while (checkNumberLenght(bookNumber) || book == null || book.isStatus());
 		account.addBook(book);
 	}
 	

@@ -47,10 +47,10 @@ public class Text {
 	}
 	
 	public static void bookInfo(Book book) {
-		System.out.println("--BOOK INFO--\n\n"
+		System.out.println("__________________\n\n"
+				+ "--BOOK INFO--\n\n"
 				+ " -Name: " + book.getName() + "\n"
-				+ " -Book Number: " + book.getNumber() + "\n"
-				+ " -Book Status: " + book.isStatus());
+				+ " -Book Number: " + book.getNumber() + "\n");
 	}
 	
 	public static void loanBook() {
@@ -97,6 +97,18 @@ public class Text {
 	
 	public static void noAccounts() {
 		System.out.println("\n**There Are No Created Accounts In Library!");
+	}
+	
+	public static void allLoaned() {
+		System.out.println("\n**All Books Have Been Loaned!");
+	}
+	
+	public static void taken() {
+		System.out.println("\n**Wanted Book Is Already Loaned!");
+	}
+	
+	public static void limit() {
+		System.out.println("\n**You Have Reached Limit Of 3 (THREE) Loaned Books!");
 	}
 	
 }

@@ -33,11 +33,13 @@ public class Account {
 	public void addBook(Book book) {
 		this.bookLoanNumber++;
 		this.loanedBooks.add(book);
+		book.setStatus(true);
 	}
 	
 	public void removeBook(Book book) {
 		this.bookLoanNumber++;
 		this.loanedBooks.remove(book);
+		book.setStatus(false);
 	}
 	
 	public boolean checkForNumber(int number) {
