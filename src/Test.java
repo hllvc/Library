@@ -29,15 +29,40 @@ public class Test {
 		Text.bookInfo(book);
 	}
 	
+	public static boolean checkNumberLenght(int number) {
+		if (Integer.toString(number).length() != 4)
+			return true;
+		return false;
+	}
+	
+	public static boolean checkForBooks() {
+		if (allBooks.isEmpty())
+			return true;
+		return false;
+	}
+	
+	public static boolean checkForAccounts() {
+		if (allAccounts.isEmpty())
+			return true;
+		return false;
+	}
+	
 	private static void loanBook() {
+		if (checkForBooks() || checkForAccounts()) {
+			if (checkForAccounts())
+				Text.noAccounts();
+			else
+				Text.noBooks();
+			return;
+		}
 		Text.loanBook();
 		int accNumber;
 		do {
 			Text.accNumberInput();
 			accNumber = input.nextInt();
-			if (Checker.checkNumberLenght(accNumber))
+			if (checkNumberLenght(accNumber))
 				Text.numberLenght();
-		} while (Checker.checkNumberLenght(accNumber));
+		} while (checkNumberLenght(accNumber));
 		do {
 			account = null;
 			for (Account x: allAccounts)
@@ -52,9 +77,9 @@ public class Test {
 		int bookNumber;
 		do {
 			bookNumber = input.nextInt();
-			if (Checker.checkNumberLenght(bookNumber))
+			if (checkNumberLenght(bookNumber))
 				Text.numberLenght();
-		} while (Checker.checkNumberLenght(bookNumber));
+		} while (checkNumberLenght(bookNumber));
 		do {
 			book = null;
 			for (Book x: allBooks)
@@ -67,6 +92,10 @@ public class Test {
 	}
 	
 	private static void allAccInfo() {
+		if (checkForAccounts()) {
+			Text.noAccounts();
+			return;
+		}
 		Text.allAccounts();
 		for (Account x: allAccounts) {
 			Text.accountInfo(x);

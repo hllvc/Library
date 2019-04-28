@@ -2,7 +2,8 @@
 public class Text {
 
 	public static void mainMenu() {
-		System.out.print("\n---MAIN MENU---\n\n"
+		System.out.print("__________________\n\n"
+				+ "---MAIN MENU---\n\n"
 				+ "1) Create New Account\n"
 				+ "2) Add New Book To Library\n"
 				+ "3) Loan Book\n"
@@ -12,7 +13,8 @@ public class Text {
 	}
 	
 	public static void createAccount() {
-		System.out.println("\n--CREATE ACCOUNT--\n");
+		System.out.println("__________________\n\n"
+				+ "--CREATE ACCOUNT--\n");
 	}
 	
 	public static void nameInput() {
@@ -24,7 +26,7 @@ public class Text {
 	}
 	
 	public static void successfullyCreatedAcc() {
-		System.out.println("*Your Have Created Account In Our Library.\n");
+		System.out.println("**Your Have Created Account In Our Library.\n");
 	}
 	
 	public static void accountInfo(Account account) {
@@ -36,7 +38,8 @@ public class Text {
 	}
 	
 	public static void addBook() {
-		System.out.println("\n--ADD NEW BOOK--\n");
+		System.out.println("__________________\n\n"
+				+ "--ADD NEW BOOK--\n");
 	}
 	
 	public static void bookNameInput() {
@@ -51,7 +54,8 @@ public class Text {
 	}
 	
 	public static void loanBook() {
-		System.out.println("\n--LOAN BOOK--\n");
+		System.out.println("__________________\n\n"
+				+ "--LOAN BOOK--\n");
 	}
 	
 	public static void accNumberInput() {
@@ -63,27 +67,36 @@ public class Text {
 	}
 	
 	public static void allAccounts() {
-		System.out.println("--LIST OF ALL ACCOUNTS--\n");
+		System.out.println("__________________\n\n"
+				+ "--LIST OF ALL ACCOUNTS--\n");
 	}
 	
 	public static void exit() {
-		System.out.println("*You Have Exited Library");
+		System.out.println("\n**You Have Exited Library");
 	}
 	
 	public static void noOptions() {
-		System.out.println("*There Are No Available Options!");
+		System.out.println("\n**There Are No Available Options!");
 	}
 	
 	public static void numberLenght() {
-		System.out.println("*Lenght Of Number Is 4 (FOUR)!");
+		System.out.println("\n**Lenght Of Number Is 4 (FOUR)!");
 	}
 	
 	public static void noAccount() {
-		System.out.println("*Account With Entered Number Doesn't Exist!");
+		System.out.println("\n**Account With Entered Number Doesn't Exist!");
 	}
 	
 	public static void noBook() {
-		System.out.println("*Book With Entered Number Doesn't Exist!");
+		System.out.println("\n**Book With Entered Number Doesn't Exist!");
+	}
+	
+	public static void noBooks() {
+		System.out.println("\n**There Are No Added Books In Library!");
+	}
+	
+	public static void noAccounts() {
+		System.out.println("\n**There Are No Created Accounts In Library!");
 	}
 	
 }
