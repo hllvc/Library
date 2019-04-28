@@ -69,8 +69,10 @@ public class Account {
 		return this.number;
 	}
 
-	public ArrayList<Book> getLoanedBooks() {
-		return loanedBooks;
+	public void getLoanedBooks() {
+		System.out.println("-LOANED BOOKS-\n");
+		for (Book book: loanedBooks)
+			System.out.println((loanedBooks.indexOf(book) + 1) + ") " + book.getName() + "\n");
 	}
 	
 	

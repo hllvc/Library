@@ -70,4 +70,20 @@ public class Text {
 		System.out.println("*You Have Exited Library");
 	}
 	
+	public static void noOptions() {
+		System.out.println("*There Are No Available Options!");
+	}
+	
+	public static void numberLenght() {
+		System.out.println("*Lenght Of Number Is 4 (FOUR)!");
+	}
+	
+	public static void noAccount() {
+		System.out.println("*Account With Entered Number Doesn't Exist!");
+	}
+	
+	public static void noBook() {
+		System.out.println("*Book With Entered Number Doesn't Exist!");
+	}
+	
 }

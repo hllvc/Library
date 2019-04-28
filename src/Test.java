@@ -31,16 +31,38 @@ public class Test {
 	
 	private static void loanBook() {
 		Text.loanBook();
-		Text.accNumberInput();
-		int accNumber = input.nextInt();
-		for (Account x: allAccounts)
-			if (x.getNumber() == accNumber)
-				account = x;
+		int accNumber;
+		do {
+			Text.accNumberInput();
+			accNumber = input.nextInt();
+			if (Checker.checkNumberLenght(accNumber))
+				Text.numberLenght();
+		} while (Checker.checkNumberLenght(accNumber));
+		do {
+			account = null;
+			for (Account x: allAccounts)
+				if (x.getNumber() == accNumber) {
+					account = x;
+					break;
+				}
+			if (account == null)
+				Text.noAccount();
+		} while (account == null);
 		Text.bookNumberInput();
-		int bookNumber = input.nextInt();
-		for (Book x: allBooks)
-			if (x.getNumber() == bookNumber)
-				book = x;
+		int bookNumber;
+		do {
+			bookNumber = input.nextInt();
+			if (Checker.checkNumberLenght(bookNumber))
+				Text.numberLenght();
+		} while (Checker.checkNumberLenght(bookNumber));
+		do {
+			book = null;
+			for (Book x: allBooks)
+				if (x.getNumber() == bookNumber)
+					book = x;
+			if (book == null)
+				Text.noBook();
+		} while ( book == null);
 		account.addBook(book);
 	}
 	
@@ -48,7 +70,7 @@ public class Test {
 		Text.allAccounts();
 		for (Account x: allAccounts) {
 			Text.accountInfo(x);
-			System.out.println(x.getLoanedBooks());
+			x.getLoanedBooks();
 		}
 	}
 	
@@ -72,6 +94,8 @@ public class Test {
 				allAccInfo();
 				break;
 			default:
+				if (choice != 0)
+					Text.noOptions();
 			}
 		} while (choice != 0);
 	}
@@ -80,6 +104,7 @@ public class Test {
 		
 		mainMenu();
 		input.close();
+		Text.exit();
 		
 	}
 	
