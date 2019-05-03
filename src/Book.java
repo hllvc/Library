@@ -1,5 +1,6 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ArrayList;
 
 public class Book {
@@ -8,14 +9,14 @@ public class Book {
 	private int number;
 	private boolean status;
 	private ArrayList<Integer> numbers = new ArrayList<>();
-	private LocalDateTime currentDateTime;
-	private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd-MMM-yyyy, HH:mm");
+	private Calendar currentDateTime;
+	private DateFormat myFormat = new SimpleDateFormat("dd-MMM-yyyy, HH:mm");
 	
 	protected Book(String name) {
 		this.name = name;
 		this.generateRandomNumber();
 		this.status = false;
-		this.currentDateTime = LocalDateTime.now();
+		this.currentDateTime = Calendar.getInstance();
 	}
 	
 	private void generateRandomNumber() {
@@ -40,8 +41,13 @@ public class Book {
 		return this.number;
 	}
 
-	public String getCurrentDateTime() {
-		return currentDateTime.format(dateTimeFormat);
+	public String getLoanedDateTime() {
+		return myFormat.format(currentDateTime.getTime());
+	}
+	
+	public String getReturnDateTime() {
+		currentDateTime.add(Calendar.MONTH, 1);
+		return myFormat.format(currentDateTime.getTime());
 	}
 
 	public boolean isStatus() {

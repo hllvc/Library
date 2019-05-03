@@ -118,6 +118,7 @@ public class Test {
 				Text.taken();
 		} while (checkNumberLenght(bookNumber) || book == null || book.isStatus());
 		account.addBook(book);
+		Text.bookLoaned(book);
 	}
 	
 	private static void allAccInfo() {
