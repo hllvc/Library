@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Text {
 	
 	public static void mainMenu() {
@@ -6,7 +8,8 @@ public class Text {
 				+ "1) Create New Account\n"
 				+ "2) Add New Book To Library\n"
 				+ "3) Loan Book\n"
-				+ "4) Accounts Details\n\n"
+				+ "4) Return Book\n"
+				+ "5) Accounts Details\n\n"
 				+ "0) Exit\n\n"
 				+ "Your Choice: ");
 	}
@@ -29,7 +32,7 @@ public class Text {
 	}
 	
 	public static void accountInfo(Account account) {
-		System.out.println("--ACCOUNT INFO--\n\n"
+		System.out.println("--ACCOUNTS INFO--\n\n"
 				+ " -Name: " + account.getName() + "\n"
 				+ " -Surname: " + account.getSurname() + "\n"
 				+ " -Created: " + account.getCurrentDateTime() + "\n"
@@ -57,6 +60,11 @@ public class Text {
 	public static void loanBook() {
 		System.out.println("__________________\n\n"
 				+ "--LOAN BOOK--\n");
+	}
+	
+	public static void returnBook() {
+		System.out.println("__________________\n\n"
+				+ "--RETURN BOOK--\n");
 	}
 	
 	public static void accNumberInput() {
@@ -116,6 +124,26 @@ public class Text {
 	
 	public static void limit() {
 		System.out.println("\n**You Have Reached Limit Of 3 (THREE) Loaned Books!");
+	}
+	
+	public static void noLoanedBooks() {
+		System.out.println("\n**There Are No Loaned Books");
+	}
+	
+	public static void allBooksList(ArrayList<Book> allBooks) {
+		System.out.println("\n--ALL BOOKS--\n\n");
+		for (Book book : allBooks)
+			System.out.println((allBooks.indexOf(book) + 1) + ") " + book.getName() + "\n"
+					+ " -Return Date: " + book.getReturnDateTime() + "\n");
+		System.out.print("\nYour Choice: ");
+	}
+	
+	public static void notList() {
+		System.out.println("\n**No Book On Selected Number!");
+	}
+	
+	public static void returnedBook() {
+		System.out.println("\n**The Book Has Been Returned!");
 	}
 	
 }

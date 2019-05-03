@@ -26,7 +26,7 @@ public class Account {
 		boolean existing;
 		do {
 			existing = false;
-			this.number = (int)(Math.random() * 899 + 100);
+			this.number = (int)(Math.random() * 8999 + 1000);
 			for (int x: this.numbers)
 				if (x == this.number) {
 					existing = true;
@@ -43,7 +43,7 @@ public class Account {
 	}
 	
 	public void removeBook(Book book) {
-		this.bookLoanNumber++;
+		this.bookLoanNumber--;
 		this.loanedBooks.remove(book);
 		book.setStatus(false);
 	}
@@ -79,12 +79,23 @@ public class Account {
 
 	public void getLoanedBooks() {
 		System.out.println("-LOANED BOOKS-\n");
-		for (Book book: loanedBooks)
-			System.out.println((loanedBooks.indexOf(book) + 1) + ") " + book.getName() + "\n");
+		if (loanedBooks.isEmpty()) {
+			System.out.println("Empty");
+			return;
+		}
+		for (Book book: this.loanedBooks)
+			System.out.println((this.loanedBooks.indexOf(book) + 1) + ") \"" + book.getName() + "\"\n"
+					+ " -Return Date: " + book.getReturnDateTime() + "\n");
 	}
 	
 	public String getCurrentDateTime() {
 		return myFormat.format(currentDateTime.getTime());
+	}
+	
+	public boolean checkLoanedBooks() {
+		if (loanedBooks.isEmpty())
+			return false;
+		return true;
 	}
 	
 }

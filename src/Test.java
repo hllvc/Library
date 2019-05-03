@@ -77,7 +77,6 @@ public class Test {
 				Text.allLoaned();
 			return;
 		}
-		
 		Text.loanBook();
 		int accNumber;
 		do {
@@ -121,6 +120,52 @@ public class Test {
 		Text.bookLoaned(book);
 	}
 	
+	private static void returnBook() {
+		boolean noLoanedBooks = false;
+		for (Account account : allAccounts) {
+			if (!account.checkLoanedBooks())
+				noLoanedBooks = true;
+		}
+		if (checkForBooks() || checkForAccounts() || noLoanedBooks) {
+			if (checkForAccounts())
+				Text.noAccounts();
+			else if (checkForBooks())
+				Text.noBooks();
+			else if (noLoanedBooks)
+				Text.noLoanedBooks();
+			return;
+		}
+		Text.returnBook();
+		int accNumber;
+		do {
+			Text.accNumberInput();
+			accNumber = input.nextInt();
+			if (checkNumberLenght(accNumber)) {
+				Text.numberLenght();
+				continue;
+			}
+			account = null;
+			for (Account x: allAccounts)
+				if (x.getNumber() == accNumber) {
+					account = x;
+					break;
+				}
+			if (account == null)
+				Text.noAccount();
+			else if (!account.checkLoanedBooks())
+				Text.noLoanedBooks();
+		} while (checkNumberLenght(accNumber) || account == null || !account.checkLoanedBooks());
+		byte choice;
+		do {
+			account.getLoanedBooks();
+			choice = input.nextByte();
+			if (choice < 1 || choice > allBooks.size())
+				Text.notList();
+		} while (choice < 1 || choice > allBooks.size());
+		account.removeBook(allBooks.get(--choice));
+		Text.returnedBook();
+	}
+	
 	private static void allAccInfo() {
 		if (checkForAccounts()) {
 			Text.noAccounts();
@@ -150,6 +195,9 @@ public class Test {
 				loanBook();
 				break;
 			case 4:
+				returnBook();
+				break;
+			case 5:
 				allAccInfo();
 				break;
 			default:
