@@ -67,6 +67,62 @@ public class Test {
 		return true;
 	}
 	
+	private static void findAccountByNumber() {
+		int accNumber;
+		try {
+			do {
+				Text.accNumberInput();
+				accNumber = input.nextInt();
+				if (checkNumberLenght(accNumber)) {
+					Text.numberLenght();
+					continue;
+				}
+				account = null;
+				for (Account x: allAccounts)
+					if (x.getNumber() == accNumber) {
+						account = x;
+						break;
+					}
+				if (account == null)
+					Text.noAccount();
+				else if (checkLoanedNumber(account)) {
+					Text.limit();
+					return;
+				}
+			} while (checkNumberLenght(accNumber) || account == null || checkLoanedNumber(account));
+		} catch (Exception e) {
+			System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+			input.nextLine();
+			findAccountByNumber();
+		}
+	}
+	
+	private static void findBookByNumber() {
+		try {
+			int bookNumber;
+			do {
+				Text.bookNumberInput();
+				bookNumber = input.nextInt();
+				if (checkNumberLenght(bookNumber)) {
+					Text.numberLenght();
+					continue;
+				}
+				book = null;
+				for (Book x: allBooks)
+					if (x.getNumber() == bookNumber)
+						book = x;
+				if (book == null)
+					Text.noBook();
+				else if (book.isStatus())
+					Text.taken();
+			} while (checkNumberLenght(bookNumber) || book == null || book.isStatus());
+		} catch (Exception e) {
+			System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+			input.nextLine();
+			findBookByNumber();
+		}
+	}
+	
 	private static void loanBook() {
 		if (checkForBooks() || checkForAccounts() || checkForLoaned()) {
 			if (checkForAccounts())
@@ -78,44 +134,8 @@ public class Test {
 			return;
 		}
 		Text.loanBook();
-		int accNumber;
-		do {
-			Text.accNumberInput();
-			accNumber = input.nextInt();
-			if (checkNumberLenght(accNumber)) {
-				Text.numberLenght();
-				continue;
-			}
-			account = null;
-			for (Account x: allAccounts)
-				if (x.getNumber() == accNumber) {
-					account = x;
-					break;
-				}
-			if (account == null)
-				Text.noAccount();
-			else if (checkLoanedNumber(account)) {
-				Text.limit();
-				return;
-			}
-		} while (checkNumberLenght(accNumber) || account == null || checkLoanedNumber(account));
-		int bookNumber;
-		do {
-			Text.bookNumberInput();
-			bookNumber = input.nextInt();
-			if (checkNumberLenght(bookNumber)) {
-				Text.numberLenght();
-				continue;
-			}
-			book = null;
-			for (Book x: allBooks)
-				if (x.getNumber() == bookNumber)
-					book = x;
-			if (book == null)
-				Text.noBook();
-			else if (book.isStatus())
-				Text.taken();
-		} while (checkNumberLenght(bookNumber) || book == null || book.isStatus());
+		findAccountByNumber();
+		findBookByNumber();
 		account.addBook(book);
 		Text.bookLoaned(book);
 	}
@@ -136,31 +156,18 @@ public class Test {
 			return;
 		}
 		Text.returnBook();
-		int accNumber;
+		findAccountByNumber();
+		byte choice = 0;
 		do {
-			Text.accNumberInput();
-			accNumber = input.nextInt();
-			if (checkNumberLenght(accNumber)) {
-				Text.numberLenght();
-				continue;
-			}
-			account = null;
-			for (Account x: allAccounts)
-				if (x.getNumber() == accNumber) {
-					account = x;
-					break;
+			try {
+				account.getLoanedBooks();
+				choice = input.nextByte();
+				if (choice < 1 || choice > allBooks.size())
+					Text.notList();
+				} catch (Exception e) {
+				System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+				input.nextLine();
 				}
-			if (account == null)
-				Text.noAccount();
-			else if (!account.checkLoanedBooks())
-				Text.noLoanedBooks();
-		} while (checkNumberLenght(accNumber) || account == null || !account.checkLoanedBooks());
-		byte choice;
-		do {
-			account.getLoanedBooks();
-			choice = input.nextByte();
-			if (choice < 1 || choice > allBooks.size())
-				Text.notList();
 		} while (choice < 1 || choice > allBooks.size());
 		account.removeBook(allBooks.get(--choice));
 		Text.returnedBook();
@@ -180,31 +187,37 @@ public class Test {
 	
 	private static void mainMenu() {
 		byte choice;
-		do {
-			Text.mainMenu();
-			choice = input.nextByte();
+		try {
+			do {
+				Text.mainMenu();
+					choice = input.nextByte();
+				input.nextLine();
+				switch (choice) {
+				case 1:
+					createAccount();
+					break;
+				case 2:
+					addNewBook();
+					break;
+				case 3:
+					loanBook();
+					break;
+				case 4:
+					returnBook();
+					break;
+				case 5:
+					allAccInfo();
+					break;
+				default:
+					if (choice != 0)
+						Text.noOptions();
+				}
+			} while (choice != 0);
+		} catch (Exception e) {
+			System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
 			input.nextLine();
-			switch (choice) {
-			case 1:
-				createAccount();
-				break;
-			case 2:
-				addNewBook();
-				break;
-			case 3:
-				loanBook();
-				break;
-			case 4:
-				returnBook();
-				break;
-			case 5:
-				allAccInfo();
-				break;
-			default:
-				if (choice != 0)
-					Text.noOptions();
-			}
-		} while (choice != 0);
+			mainMenu();
+		}
 	}
 	
 	public static void main(String[] args) {
