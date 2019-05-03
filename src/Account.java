@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Account {
@@ -8,12 +10,15 @@ public class Account {
 	private int bookLoanNumber;
 	private ArrayList<Integer> numbers = new ArrayList<>();
 	private ArrayList<Book> loanedBooks = new ArrayList<>();
+	private LocalDateTime currentDateTime;
+	private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd-MMM-yyyy, HH:mm");
 	
 	protected Account(String name, String surname) {
 		this.name = name;
 		this.surname = surname;
 		this.bookLoanNumber = 0;
 		this.generateRandomNumber();
+		currentDateTime = LocalDateTime.now();
 	}
 	
 	private void generateRandomNumber() {
@@ -77,5 +82,8 @@ public class Account {
 			System.out.println((loanedBooks.indexOf(book) + 1) + ") " + book.getName() + "\n");
 	}
 	
+	public String getCurrentDateTime() {
+		return currentDateTime.format(dateTimeFormat);
+	}
 	
 }

@@ -1,6 +1,5 @@
-
 public class Text {
-
+	
 	public static void mainMenu() {
 		System.out.print("__________________\n\n"
 				+ "---MAIN MENU---\n\n"
@@ -33,6 +32,7 @@ public class Text {
 		System.out.println("--ACCOUNT INFO--\n\n"
 				+ " -Name: " + account.getName() + "\n"
 				+ " -Surname: " + account.getSurname() + "\n"
+				+ " -Created: " + account.getCurrentDateTime() + "\n"
 				+ " -Account Number: *" + account.getNumber() + "*\n"
 				+ " -Number Of Loaned Books: " + account.getBookLoanNumber());
 	}
@@ -50,6 +50,7 @@ public class Text {
 		System.out.println("__________________\n\n"
 				+ "--BOOK INFO--\n\n"
 				+ " -Name: " + book.getName() + "\n"
+				+ " -Added: " + book.getCurrentDateTime()
 				+ " -Book Number: *" + book.getNumber() + "*\n");
 	}
 	
