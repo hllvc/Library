@@ -225,27 +225,10 @@ public class Test {
 	
 	private static void readFiles() {
 		try {
-			file = new File(".Accounts");
+			file = new File(".libraryData/.Books");
 			Scanner readFile = new Scanner(file);
 			try {
-				do {
-					account = new Account(readFile.nextLine(), readFile.nextLine());
-					account.setNumber(readFile.nextInt());
-					readFile.nextLine();
-					account.setDateCreated(readFile.nextLine());
-					account.setBookLoanNumber(readFile.nextInt());
-					readFile.nextLine();
-					readFile.nextLine();
-					allAccounts.add(account);
-				} while (readFile.hasNextLine() && readFile.hasNext());
-			} catch (Exception e) {
-				System.out.println("\n**Error While Loading Accounts Data!");
-			}
-			readFile.close();
-			file = new File(".Books");
-			readFile = new Scanner(file);
-			try {
-				do  {
+				while (readFile.hasNextLine() && readFile.hasNext()) {
 					book = new Book(readFile.nextLine());
 					book.setNumber(readFile.nextInt());
 					readFile.nextLine();
@@ -255,9 +238,39 @@ public class Test {
 					readFile.nextLine();
 					readFile.nextLine();
 					allBooks.add(book);
-				} while (readFile.hasNextLine() && readFile.hasNext());
+				}
 			} catch (Exception e) {
 				System.out.println("\n**Error While Loading Books Data!");
+			}
+			readFile.close();
+			file = new File(".libraryData/.Accounts");
+			readFile = new Scanner(file);
+			Scanner loanInput;
+			try {
+				while (readFile.hasNextLine() && readFile.hasNext()) {
+					account = new Account(readFile.nextLine(), readFile.nextLine());
+					account.setNumber(readFile.nextInt());
+					readFile.nextLine();
+					account.setDateCreated(readFile.nextLine());
+					account.setBookLoanNumber(readFile.nextInt());
+					readFile.nextLine();
+					readFile.nextLine();
+					allAccounts.add(account);
+					loanInput = new Scanner(".libraryData/.accountsLoanList/." + account.getNumber());
+					try {
+						String bookName;
+						while (loanInput.hasNextLine() && loanInput.hasNext()) {
+							bookName = loanInput.nextLine();
+							for (Book book : allBooks)
+								if (book.getName().equals(bookName))
+									account.addBook(book);
+						}
+					} catch (Exception e) {
+						System.out.println("\n**Error While Loading Accounts Loan List Data!");
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("\n**Error While Loading Accounts Data!");
 			}
 			readFile.close();
 		} catch (Exception e) {
@@ -267,8 +280,8 @@ public class Test {
 	
 	private static void writeFiles() {
 		try {
-			file = new File(".Accounts");
-			PrintWriter output = new PrintWriter(file);
+			PrintWriter output = new PrintWriter(".libraryData/.Accounts");
+			PrintWriter loanOutput;
 			try {
 				for (Account acc : allAccounts) {
 					output.println(acc.getName());
@@ -277,13 +290,15 @@ public class Test {
 					output.println(acc.getDateCreated());
 					output.println(acc.getBookLoanNumber());
 					output.println();
+					loanOutput = new PrintWriter(".libraryData/.accountsLoanList/" + acc.getNumber());
+					loanOutput.println(acc.loanedBookData());
+					loanOutput.close();
 				}
 			} catch (Exception e) {
 				System.out.println("\n**Can Not Store Your Accounts Data.\n**ALL DATA WILL BE LOST!");
 			}
 			output.close();
-			file = new File(".Books");
-			output = new PrintWriter(file);
+			output = new PrintWriter(".libraryData/.Books");
 			try {
 				for (Book book : allBooks) {
 					output.println(book.getName());
@@ -302,8 +317,15 @@ public class Test {
 		}
 	}
 	
+	private static void createDir() {
+		file = new File(".libraryData/.accountsLoanList");
+		if (!file.exists())
+			file.mkdirs();
+	}
+	
 	public static void main(String[] args) {
 		
+		createDir();
 		readFiles();
 		
 		mainMenu();

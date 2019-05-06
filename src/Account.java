@@ -118,4 +118,11 @@ public class Account {
 		this.dateCreated = date;
 	}
 	
+	public String loanedBookData() {
+		String data = "";
+		for (Book book : this.loanedBooks)
+			data += book.getName() + "\n";
+		return data;
+	}
+	
 }
