@@ -64,10 +64,6 @@ public class Book {
 		return this.status;
 	}
 	
-	public boolean getStatus() {
-		return this.status;
-	}
-	
 	public void setStatus(boolean status) {
 		this.status = status;
 	}

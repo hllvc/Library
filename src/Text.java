@@ -138,6 +138,13 @@ public class Text {
 		System.out.print("\nYour Choice: ");
 	}
 	
+	public static void notLoanedBooks(ArrayList<Book> notLoaned) {
+		System.out.println("\n--ALL AVAILABLE BOOKS--\n\n");
+		for (Book book : notLoaned)
+			System.out.println((notLoaned.indexOf(book) + 1) + ") " + book.getName() + "\n");
+		System.out.print("Your Choice: ");
+	}
+	
 	public static void notList() {
 		System.out.println("\n**No Book On Selected Number!");
 	}

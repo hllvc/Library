@@ -52,8 +52,8 @@ public class Test {
 	
 	public static boolean checkForLoaned() {
 		boolean loaned = true;
-		for (Book x: allBooks)
-			if (!x.isStatus())
+		for (Book book: allBooks)
+			if (!book.isStatus())
 				loaned = false;
 		return loaned;
 	}
@@ -64,8 +64,8 @@ public class Test {
 		return false;
 	}
 	
-	public static boolean checkLoanedNumber(Account x) {
-		if (x.getBookLoanNumber() < 3)
+	public static boolean checkLoanedNumber(Account account) {
+		if (account.getBookLoanNumber() < 3)
 			return false;
 		return true;
 	}
@@ -88,41 +88,11 @@ public class Test {
 					}
 				if (account == null)
 					Text.noAccount();
-				else if (checkLoanedNumber(account)) {
-					Text.limit();
-					return;
-				}
-			} while (checkNumberLenght(accNumber) || account == null || checkLoanedNumber(account));
+			} while (checkNumberLenght(accNumber) || account == null);
 		} catch (Exception e) {
 			System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
 			input.nextLine();
 			findAccountByNumber();
-		}
-	}
-	
-	private static void findBookByNumber() {
-		try {
-			int bookNumber;
-			do {
-				Text.bookNumberInput();
-				bookNumber = input.nextInt();
-				if (checkNumberLenght(bookNumber)) {
-					Text.numberLenght();
-					continue;
-				}
-				book = null;
-				for (Book x: allBooks)
-					if (x.getNumber() == bookNumber)
-						book = x;
-				if (book == null)
-					Text.noBook();
-				else if (book.isStatus())
-					Text.taken();
-			} while (checkNumberLenght(bookNumber) || book == null || book.isStatus());
-		} catch (Exception e) {
-			System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
-			input.nextLine();
-			findBookByNumber();
 		}
 	}
 	
@@ -138,41 +108,59 @@ public class Test {
 		}
 		Text.loanBook();
 		findAccountByNumber();
-		findBookByNumber();
-		account.addBook(book);
-		Text.bookLoaned(book);
-	}
-	
-	private static void returnBook() {
-		boolean noLoanedBooks = false;
-		for (Account account : allAccounts) {
-			if (!account.checkLoanedBooks())
-				noLoanedBooks = true;
-		}
-		if (checkForBooks() || checkForAccounts() || noLoanedBooks) {
-			if (checkForAccounts())
-				Text.noAccounts();
-			else if (checkForBooks())
-				Text.noBooks();
-			else if (noLoanedBooks)
-				Text.noLoanedBooks();
+		if (checkLoanedNumber(account)) {
+			Text.limit();
 			return;
 		}
-		Text.returnBook();
-		findAccountByNumber();
 		byte choice = 0;
+		ArrayList<Book> notLoanedBooks = new ArrayList<>();
 		do {
 			try {
-				account.getLoanedBooks();
+				for (Book book : allBooks) {
+					if (!book.isStatus())
+						notLoanedBooks.add(book);
+				}
+				Text.notLoanedBooks(notLoanedBooks);
 				choice = input.nextByte();
-				if (choice < 1 || choice > allBooks.size())
+				if (choice < 1 || choice > notLoanedBooks.size())
 					Text.notList();
 				} catch (Exception e) {
 				System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
 				input.nextLine();
 				}
-		} while (choice < 1 || choice > allBooks.size());
-		account.removeBook(allBooks.get(--choice));
+		} while (choice < 1 || choice > notLoanedBooks.size());
+		account.addBook(notLoanedBooks.get(--choice));
+		Text.bookLoaned(book);
+	}
+	
+	private static void returnBook() {
+		if (checkForBooks() || checkForAccounts()) {
+			if (checkForAccounts())
+				Text.noAccounts();
+			else if (checkForBooks())
+				Text.noBooks();
+			return;
+		}
+		Text.returnBook();
+		findAccountByNumber();
+		if (account.checkLoanedBooks()) {
+			Text.noLoanedBooks();
+			return;
+		}
+		byte choice = 0;
+		do {
+			try {
+				account.getLoanedBooks();
+				System.out.print("Your Choice: ");
+				choice = input.nextByte();
+				if (choice < 1 || choice > account.getLoanedBookSize())
+					Text.notList();
+				} catch (Exception e) {
+				System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+				input.nextLine();
+				}
+		} while (choice < 1 || choice > account.getLoanedBookSize());
+		account.returnBook(choice);
 		Text.returnedBook();
 	}
 	
@@ -245,42 +233,57 @@ public class Test {
 			readFile.close();
 			file = new File(".libraryData/.Accounts");
 			readFile = new Scanner(file);
-			Scanner loanInput;
 			try {
 				while (readFile.hasNextLine() && readFile.hasNext()) {
 					account = new Account(readFile.nextLine(), readFile.nextLine());
 					account.setNumber(readFile.nextInt());
 					readFile.nextLine();
 					account.setDateCreated(readFile.nextLine());
-					account.setBookLoanNumber(readFile.nextInt());
-					readFile.nextLine();
 					readFile.nextLine();
 					allAccounts.add(account);
-					loanInput = new Scanner(".libraryData/.accountsLoanList/." + account.getNumber());
-					try {
-						String bookName;
-						while (loanInput.hasNextLine() && loanInput.hasNext()) {
-							bookName = loanInput.nextLine();
-							for (Book book : allBooks)
-								if (book.getName().equals(bookName))
-									account.addBook(book);
-						}
-					} catch (Exception e) {
-						System.out.println("\n**Error While Loading Accounts Loan List Data!");
-					}
 				}
 			} catch (Exception e) {
 				System.out.println("\n**Error While Loading Accounts Data!");
 			}
 			readFile.close();
+			for (Account account : allAccounts) {
+				file = new File(".libraryData/.accountsLoanList/" + account.getNumber());
+				readFile = new Scanner(file);
+				int bookNumber;
+				try {
+					while (readFile.hasNextLine() && readFile.hasNext()) {
+						bookNumber = readFile.nextInt();
+						for (Book book : allBooks)
+							if (bookNumber == book.getNumber())
+								account.addBook(book);
+					}
+				} catch (Exception e) {
+					System.out.println("\n**Error While Loading Accounts Loan List Data!");
+				}
+				readFile.close();
+			}
 		} catch (Exception e) {
-			System.out.println("\n**Hello!\n**Welcome To Your Digital Library\n**Enjoy!");
+			System.out.println("\n**Hello!\n**Welcome To Your Digital Library\n**Enjoy!\n");
 		}
 	}
 	
 	private static void writeFiles() {
 		try {
-			PrintWriter output = new PrintWriter(".libraryData/.Accounts");
+			PrintWriter output = new PrintWriter(".libraryData/.Books");
+			try {
+				for (Book book : allBooks) {
+					output.println(book.getName());
+					output.println(book.getNumber());
+					output.println(book.getLoanDate());
+					output.println(book.getReturnDate());
+					output.println(book.isStatus());
+					output.println();
+				}
+			} catch (Exception e) {
+				System.out.println("\n**Can Not Store Your Accounts Data.\n**ALL DATA WILL BE LOST!");
+			}
+			output.close();
+			output = new PrintWriter(".libraryData/.Accounts");
 			PrintWriter loanOutput;
 			try {
 				for (Account acc : allAccounts) {
@@ -288,25 +291,16 @@ public class Test {
 					output.println(acc.getSurname());
 					output.println(acc.getNumber());
 					output.println(acc.getDateCreated());
-					output.println(acc.getBookLoanNumber());
 					output.println();
 					loanOutput = new PrintWriter(".libraryData/.accountsLoanList/" + acc.getNumber());
-					loanOutput.println(acc.loanedBookData());
+					allBooks = acc.getBooks();
+					try {
+						for (Book book : allBooks)
+							loanOutput.println(book.getNumber());
+					} catch (Exception e) {
+						System.out.println("\n**No Such File!");
+					}
 					loanOutput.close();
-				}
-			} catch (Exception e) {
-				System.out.println("\n**Can Not Store Your Accounts Data.\n**ALL DATA WILL BE LOST!");
-			}
-			output.close();
-			output = new PrintWriter(".libraryData/.Books");
-			try {
-				for (Book book : allBooks) {
-					output.println(book.getName());
-					output.println(book.getNumber());
-					output.println(book.getLoanDate());
-					output.println(book.getReturnDate());
-					output.println(book.getStatus());
-					output.println();
 				}
 			} catch (Exception e) {
 				System.out.println("\n**Can Not Store Your Accounts Data.\n**ALL DATA WILL BE LOST!");
@@ -319,8 +313,10 @@ public class Test {
 	
 	private static void createDir() {
 		file = new File(".libraryData/.accountsLoanList");
-		if (!file.exists())
+		if (!file.exists()) {
 			file.mkdirs();
+			System.out.println("\n**Created Directories For Data Storage!!");
+		}
 	}
 	
 	public static void main(String[] args) {

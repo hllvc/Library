@@ -43,12 +43,6 @@ public class Account {
 		book.setStatus(true);
 	}
 	
-	public void removeBook(Book book) {
-		this.bookLoanNumber--;
-		this.loanedBooks.remove(book);
-		book.setStatus(false);
-	}
-	
 	public boolean checkForNumber(int number) {
 		boolean existing;
 		do {
@@ -73,11 +67,6 @@ public class Account {
 	public int getBookLoanNumber() {
 		return this.bookLoanNumber;
 	}
-	
-	public void setBookLoanNumber(int bookLoanNumber) {
-		this.bookLoanNumber = bookLoanNumber;
-		this.numbers.add(this.number);
-	}
 
 	public int getNumber() {
 		return this.number;
@@ -99,6 +88,17 @@ public class Account {
 					+ " -Return Date: " + book.getReturnDate() + "\n");
 	}
 	
+	public int getLoanedBookSize() {
+		return loanedBooks.size();
+	}
+	
+	public void returnBook(int index) {
+		this.loanedBooks.get(index - 1).setStatus(false);
+		this.loanedBooks.remove(index - 1);
+		this.bookLoanNumber--;
+		
+	}
+	
 	private String getCurrentDateTime() {
 		this.currentDateTime = Calendar.getInstance();
 		return myFormat.format(currentDateTime.getTime());
@@ -106,8 +106,8 @@ public class Account {
 	
 	public boolean checkLoanedBooks() {
 		if (loanedBooks.isEmpty())
-			return false;
-		return true;
+			return true;
+		return false;
 	}
 	
 	public String getDateCreated() {
@@ -118,11 +118,8 @@ public class Account {
 		this.dateCreated = date;
 	}
 	
-	public String loanedBookData() {
-		String data = "";
-		for (Book book : this.loanedBooks)
-			data += book.getName() + "\n";
-		return data;
+	public ArrayList<Book> getBooks() {
+		return loanedBooks;
 	}
 	
 }
