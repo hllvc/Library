@@ -9,6 +9,7 @@ public class Account {
 	private String surname;
 	private int number;
 	private int bookLoanNumber;
+	private String dateCreated;
 	private ArrayList<Integer> numbers = new ArrayList<>();
 	private ArrayList<Book> loanedBooks = new ArrayList<>();
 	private Calendar currentDateTime;
@@ -19,7 +20,7 @@ public class Account {
 		this.surname = surname;
 		this.bookLoanNumber = 0;
 		this.generateRandomNumber();
-		this.currentDateTime = Calendar.getInstance();
+		this.dateCreated = this.getCurrentDateTime();
 	}
 	
 	private void generateRandomNumber() {
@@ -72,9 +73,19 @@ public class Account {
 	public int getBookLoanNumber() {
 		return this.bookLoanNumber;
 	}
+	
+	public void setBookLoanNumber(int bookLoanNumber) {
+		this.bookLoanNumber = bookLoanNumber;
+		this.numbers.add(this.number);
+	}
 
 	public int getNumber() {
 		return this.number;
+	}
+	
+	public void setNumber(int number) {
+		this.number = number;
+		this.numbers.add(this.number);
 	}
 
 	public void getLoanedBooks() {
@@ -85,10 +96,11 @@ public class Account {
 		}
 		for (Book book: this.loanedBooks)
 			System.out.println((this.loanedBooks.indexOf(book) + 1) + ") \"" + book.getName() + "\"\n"
-					+ " -Return Date: " + book.getReturnDateTime() + "\n");
+					+ " -Return Date: " + book.getReturnDate() + "\n");
 	}
 	
-	public String getCurrentDateTime() {
+	private String getCurrentDateTime() {
+		this.currentDateTime = Calendar.getInstance();
 		return myFormat.format(currentDateTime.getTime());
 	}
 	
@@ -96,6 +108,14 @@ public class Account {
 		if (loanedBooks.isEmpty())
 			return false;
 		return true;
+	}
+	
+	public String getDateCreated() {
+		return this.dateCreated;
+	}
+	
+	public void setDateCreated(String date) {
+		this.dateCreated = date;
 	}
 	
 }

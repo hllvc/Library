@@ -35,7 +35,7 @@ public class Text {
 		System.out.println("--ACCOUNTS INFO--\n\n"
 				+ " -Name: " + account.getName() + "\n"
 				+ " -Surname: " + account.getSurname() + "\n"
-				+ " -Created: " + account.getCurrentDateTime() + "\n"
+				+ " -Created: " + account.getDateCreated() + "\n"
 				+ " -Account Number: *" + account.getNumber() + "*\n"
 				+ " -Number Of Loaned Books: " + account.getBookLoanNumber());
 	}
@@ -53,7 +53,7 @@ public class Text {
 		System.out.println("__________________\n\n"
 				+ "--BOOK INFO--\n\n"
 				+ " -Name: " + book.getName() + "\n"
-				+ " -Added: " + book.getLoanedDateTime() + "\n"
+				+ " -Added: " + book.getLoanDate() + "\n"
 				+ " -Book Number: *" + book.getNumber() + "*\n");
 	}
 	
@@ -114,8 +114,8 @@ public class Text {
 	
 	public static void bookLoaned(Book book) {
 		System.out.println("\n**You Have Loaned \"" + book.getName() + "\"\n"
-				+ " -Loan Date: " + book.getLoanedDateTime() + "\n"
-				+ " -Return Date: " + book.getReturnDateTime() + "\n");
+				+ " -Loan Date: " + book.getLoanDate() + "\n"
+				+ " -Return Date: " + book.getReturnDate() + "\n");
 	}
 	
 	public static void taken() {
@@ -134,7 +134,7 @@ public class Text {
 		System.out.println("\n--ALL BOOKS--\n\n");
 		for (Book book : allBooks)
 			System.out.println((allBooks.indexOf(book) + 1) + ") " + book.getName() + "\n"
-					+ " -Return Date: " + book.getReturnDateTime() + "\n");
+					+ " -Return Date: " + book.getReturnDate() + "\n");
 		System.out.print("\nYour Choice: ");
 	}
 	

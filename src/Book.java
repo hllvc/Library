@@ -8,6 +8,8 @@ public class Book {
 	private String name;
 	private int number;
 	private boolean status;
+	private String loanDate;
+	private String returnDate;
 	private ArrayList<Integer> numbers = new ArrayList<>();
 	private Calendar currentDateTime;
 	private DateFormat myFormat = new SimpleDateFormat("dd-MMM-yyyy, HH:mm");
@@ -16,7 +18,9 @@ public class Book {
 		this.name = name;
 		this.generateRandomNumber();
 		this.status = false;
-		this.currentDateTime = Calendar.getInstance();
+		this.loanDate = this.getLoanedDateTime();
+		this.returnDate = this.getReturnDateTime();
+		
 	}
 	
 	private void generateRandomNumber() {
@@ -40,13 +44,19 @@ public class Book {
 	public int getNumber() {
 		return this.number;
 	}
+	
+	public void setNumber(int number) {
+		this.number = number;
+		this.numbers.add(this.number);
+	}
 
-	public String getLoanedDateTime() {
+	private String getLoanedDateTime() {
+		this.currentDateTime = Calendar.getInstance();
 		return myFormat.format(currentDateTime.getTime());
 	}
 	
-	public String getReturnDateTime() {
-		currentDateTime.add(Calendar.MONTH, 1);
+	private String getReturnDateTime() {
+		this.currentDateTime.add(Calendar.MONTH, 1);
 		return myFormat.format(currentDateTime.getTime());
 	}
 
@@ -54,8 +64,28 @@ public class Book {
 		return this.status;
 	}
 	
+	public boolean getStatus() {
+		return this.status;
+	}
+	
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public String getLoanDate() {
+		return this.loanDate;
+	}
+
+	public void setLoanDate(String loanDate) {
+		this.loanDate = loanDate;
+	}
+
+	public String getReturnDate() {
+		return this.returnDate;
+	}
+
+	public void setReturnDate(String returnDate) {
+		this.returnDate = returnDate;
 	}
 	
 }

@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,6 +10,7 @@ public class Test {
 	private static Scanner input = new Scanner(System.in);
 	private static ArrayList<Account> allAccounts = new ArrayList<>();
 	private static ArrayList<Book> allBooks = new ArrayList<>();
+	private static File file;
 	
 	private static void createAccount() {
 		Text.createAccount();
@@ -220,11 +223,94 @@ public class Test {
 		}
 	}
 	
+	private static void readFiles() {
+		try {
+			file = new File(".Accounts");
+			Scanner readFile = new Scanner(file);
+			try {
+				do {
+					account = new Account(readFile.nextLine(), readFile.nextLine());
+					account.setNumber(readFile.nextInt());
+					readFile.nextLine();
+					account.setDateCreated(readFile.nextLine());
+					account.setBookLoanNumber(readFile.nextInt());
+					readFile.nextLine();
+					readFile.nextLine();
+					allAccounts.add(account);
+				} while (readFile.hasNextLine() && readFile.hasNext());
+			} catch (Exception e) {
+				System.out.println("\n**Error While Loading Accounts Data!");
+			}
+			readFile.close();
+			file = new File(".Books");
+			readFile = new Scanner(file);
+			try {
+				do  {
+					book = new Book(readFile.nextLine());
+					book.setNumber(readFile.nextInt());
+					readFile.nextLine();
+					book.setLoanDate(readFile.nextLine());
+					book.setReturnDate(readFile.nextLine());
+					book.setStatus(readFile.nextBoolean());
+					readFile.nextLine();
+					readFile.nextLine();
+					allBooks.add(book);
+				} while (readFile.hasNextLine() && readFile.hasNext());
+			} catch (Exception e) {
+				System.out.println("\n**Error While Loading Books Data!");
+			}
+			readFile.close();
+		} catch (Exception e) {
+			System.out.println("\n**Hello!\n**Welcome To Your Digital Library\n**Enjoy!");
+		}
+	}
+	
+	private static void writeFiles() {
+		try {
+			file = new File(".Accounts");
+			PrintWriter output = new PrintWriter(file);
+			try {
+				for (Account acc : allAccounts) {
+					output.println(acc.getName());
+					output.println(acc.getSurname());
+					output.println(acc.getNumber());
+					output.println(acc.getDateCreated());
+					output.println(acc.getBookLoanNumber());
+					output.println();
+				}
+			} catch (Exception e) {
+				System.out.println("\n**Can Not Store Your Accounts Data.\n**ALL DATA WILL BE LOST!");
+			}
+			output.close();
+			file = new File(".Books");
+			output = new PrintWriter(file);
+			try {
+				for (Book book : allBooks) {
+					output.println(book.getName());
+					output.println(book.getNumber());
+					output.println(book.getLoanDate());
+					output.println(book.getReturnDate());
+					output.println(book.getStatus());
+					output.println();
+				}
+			} catch (Exception e) {
+				System.out.println("\n**Can Not Store Your Accounts Data.\n**ALL DATA WILL BE LOST!");
+			}
+			output.close();
+		} catch (Exception e) {
+			System.out.println("\n**File Not Found!");
+		}
+	}
+	
 	public static void main(String[] args) {
+		
+		readFiles();
 		
 		mainMenu();
 		input.close();
 		Text.exit();
+		
+		writeFiles();
 		
 	}
 	
